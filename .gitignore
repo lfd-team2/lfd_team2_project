@@ -1,0 +1,7 @@
+# virtual environment
+.venv
+.venv/*
+
+# vscode
+.vscode
+.vscode/*
