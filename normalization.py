@@ -1,10 +1,3 @@
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import csv
-
-# read csv file
-# read csv file
 dtype_dict_train = {
     'id': int,
     'class': str,
