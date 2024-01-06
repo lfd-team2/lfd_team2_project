@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import preprocessing.normalizer as nmr
 import preprocessing.imputer as imp
-from preprocessing.lda import lda
+from preprocessing.pca import pca
 import matplotlib.pyplot as plt
 from sklearn import metrics
 from sklearn.linear_model import LogisticRegression
@@ -25,7 +25,7 @@ training_class = data_frame['class'].values
 def random_seed(): return int(time.time())
 
 
-lda_size = 80
+pca_size = 70
 
 # Trying different normalization methods
 test_frame = pd.read_csv('data/aps_failure_test_set.csv', na_values='na')
@@ -33,7 +33,7 @@ test_data = test_frame.drop(columns=['id'] + cols_to_drop).values
 test_ids = test_frame['id'].values
 
 nrm_strat = 0
-imp_strat = 1
+imp_strat = 0
 
 if nrm_strat == 0:
     strategy = 'zscore'
@@ -69,14 +69,14 @@ else:
 
 print(f"current_iter: {strategy} {impute}")
 
-projected_data, components, component_weights = lda(
-    training_data, training_class, lda_size)
+projected_data, components, component_weights = pca(
+    training_data, pca_size)
 
 # Undersampling the data
 undersampler = RandomUnderSampler(
     random_state=random_seed(), sampling_strategy='majority')
 
-random_forest_projected_data, random_forest_training_class = undersampler.fit_resample(
+projected_data, training_class = undersampler.fit_resample(
     projected_data, training_class)
 
 test_fold = np.dot(test_fold, components)
@@ -85,7 +85,7 @@ test_fold = np.dot(test_fold, components)
 random_forest = RandomForestClassifier(
     n_estimators=100, random_state=random_seed())
 
-random_forest.fit(random_forest_projected_data, random_forest_training_class)
+random_forest.fit(projected_data, training_class)
 
 # Testing the model
 
@@ -93,7 +93,7 @@ predict_labels = random_forest.predict(test_fold)
 
 # Calculating the accuracy
 file_name = (
-    f'{strategy}_{impute}_random_forest_after_{lda_size}_component_lda')
+    f'{strategy}_{impute}_random_forest_after_{pca_size}_component_pca')
 
 ids = test_frame['id'].to_list()
 resullt_frame = pd.DataFrame({'id': ids, 'class': predict_labels})
@@ -105,7 +105,7 @@ logreg.fit(projected_data, training_class)
 predict_labels = logreg.predict(test_fold)
 
 file_name = (
-    f'{strategy}_{impute}_logreg_{lda_size}_component_lda')
+    f'{strategy}_{impute}_logreg_{pca_size}_component_pca')
 
 ids = test_frame['id'].to_list()
 resullt_frame = pd.DataFrame({'id': ids, 'class': predict_labels})
