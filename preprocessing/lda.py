@@ -58,6 +58,8 @@ def lda(data, labels, num_components):
         # If the matrix is singular, then add a small value to the diagonal
         Sw_inverse = np.linalg.inv(Sw + 0.0001 * np.eye(num_features))
 
+    Sw_inverse = np.real(Sw_inverse)
+
     # Get eigenvalues and eigenvectors of Sw_inverse * Sb
     SwSb = np.dot(Sw_inverse, Sb)
     eigenvalues, eigenvectors = np.linalg.eig(SwSb)
@@ -66,6 +68,9 @@ def lda(data, labels, num_components):
     sorted_indices = np.argsort(eigenvalues)[::-1]
     eigenvalues = eigenvalues[sorted_indices][:num_components]
     eigenvectors = eigenvectors[:, sorted_indices][:, :num_components]
+
+    eigenvalues = np.real(eigenvalues)
+    eigenvectors = np.real(eigenvectors)
 
     # Project the data onto eigenvectors
     projected_data = np.dot(data, eigenvectors)
