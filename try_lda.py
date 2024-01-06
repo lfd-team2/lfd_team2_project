@@ -30,7 +30,9 @@ class_neg_data = projected_data[np.where(training_class == 'neg')]
 class_pos_data = projected_data[np.where(training_class == 'pos')]
 
 # Plotting the data
-plt.scatter(class_neg_data[:, 0], class_neg_data[:, 1], c='r', label='neg')
-plt.scatter(class_pos_data[:, 0], class_pos_data[:, 1], c='b', label='pos')
+plt.scatter(class_neg_data[:, 0], class_neg_data[:, 1],
+            c='r', s=[0.7], alpha=0.5, label='neg')
+plt.scatter(class_pos_data[:, 0], class_pos_data[:, 1],
+            c='b', s=[0.7], alpha=0.5, label='pos')
 plt.legend()
 plt.show()

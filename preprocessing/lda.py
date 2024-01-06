@@ -55,7 +55,8 @@ def lda(data, labels, num_components):
     try:
         Sw_inverse = np.linalg.inv(Sw)
     except np.linalg.LinAlgError:
-        Sw_inverse = np.linalg.pinv(Sw)
+        # If the matrix is singular, then add a small value to the diagonal
+        Sw_inverse = np.linalg.inv(Sw + 0.0001 * np.eye(num_features))
 
     # Get eigenvalues and eigenvectors of Sw_inverse * Sb
     SwSb = np.dot(Sw_inverse, Sb)
