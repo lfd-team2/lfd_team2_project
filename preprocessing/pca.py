@@ -8,7 +8,6 @@ def pca(data, num_components=2):
     covariance_matrix = np.cov(data, rowvar=False)
     # Calculating the eigenvalues and eigenvectors
     eigenvalues, eigenvectors = np.linalg.eig(covariance_matrix)
-    print(covariance_matrix.shape)
 
     # Sorting eigenvector and values in the descending order
     idx = eigenvalues.argsort()[::-1]
