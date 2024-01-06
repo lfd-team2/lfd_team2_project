@@ -21,4 +21,4 @@ def pca(data, num_components=2):
     # Projecting the data on the components
     projected_data = np.dot(data, components)
 
-    return projected_data, components, eigenvalues
+    return projected_data, eigenvectors, eigenvalues
