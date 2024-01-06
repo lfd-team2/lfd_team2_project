@@ -40,3 +40,13 @@ def clipping_normalize(data, clip_min_percentile=0, clip_max_percentile=100):
     # Apply the clipper function to the data with leaving the nan values as they are
     clipped_data = np.where(nan_mask, data, clipper(data))
     return clipped_data
+
+
+def applyZscoreNormalization(data, mean, std):
+    normalized_data = (data - mean) / std
+    return normalized_data
+
+
+def applyMinmaxNormalization(data, min, minmax):
+    normalized_data = (data - min) / minmax
+    return normalized_data
