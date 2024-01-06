@@ -33,7 +33,7 @@ test_data = test_frame.drop(columns=['id'] + cols_to_drop).values
 test_ids = test_frame['id'].values
 
 nrm_strat = 0
-imp_strat = 1
+imp_strat = 0
 
 if nrm_strat == 0:
     strategy = 'zscore'
@@ -69,15 +69,18 @@ else:
 
 print(f"current_iter: {strategy} {impute}")
 
+# Applying LDA
 projected_data, components, component_weights = lda(
     training_data, training_class, lda_size)
+
 
 # Undersampling the data
 undersampler = RandomUnderSampler(
     random_state=random_seed(), sampling_strategy='majority')
 
-random_forest_projected_data, random_forest_training_class = undersampler.fit_resample(
+projected_data, training_class = undersampler.fit_resample(
     projected_data, training_class)
+
 
 test_fold = np.dot(test_fold, components)
 
@@ -85,7 +88,7 @@ test_fold = np.dot(test_fold, components)
 random_forest = RandomForestClassifier(
     n_estimators=100, random_state=random_seed())
 
-random_forest.fit(random_forest_projected_data, random_forest_training_class)
+random_forest.fit(projected_data, training_class)
 
 # Testing the model
 
