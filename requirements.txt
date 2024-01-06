@@ -1,4 +1,6 @@
-kaggle
 numpy
 pandas
 matplotlip
+seaborn
+scikit-learn
+imblearn
