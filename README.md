@@ -1,3 +1,12 @@
-# lfd_team2_project
+# BLG 454E 2023 Term Project, Team 2
 
-## Normaliazation
+## Members
+* Bilgenur Çelik - 150210063
+* Fatih Baskın - 150210710
+
+## Requirements
+'''
+numpy
+pandas
+scikit-learn
+'''
