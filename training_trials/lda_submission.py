@@ -3,11 +3,7 @@ import pandas as pd
 import preprocessing.normalizer as nmr
 import preprocessing.imputer as imp
 from preprocessing.lda import lda
-import matplotlib.pyplot as plt
-from sklearn import metrics
-from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
 from imblearn.under_sampling import RandomUnderSampler
 import time
 
@@ -25,7 +21,7 @@ training_class = data_frame['class'].values
 def random_seed(): return int(time.time())
 
 
-lda_size = 80
+lda_size = 75
 
 # Trying different normalization methods
 test_frame = pd.read_csv('data/aps_failure_test_set.csv', na_values='na')
@@ -102,13 +98,6 @@ ids = test_frame['id'].to_list()
 resullt_frame = pd.DataFrame({'id': ids, 'class': predict_labels})
 resullt_frame.to_csv(
     f'data/automated_tests/{file_name}.csv', index=False)
-
-logreg = LogisticRegression(random_state=random_seed(), max_iter=1000)
-logreg.fit(projected_data, training_class)
-predict_labels = logreg.predict(test_fold)
-
-file_name = (
-    f'{strategy}_{impute}_logreg_{lda_size}_component_lda')
 
 ids = test_frame['id'].to_list()
 resullt_frame = pd.DataFrame({'id': ids, 'class': predict_labels})
