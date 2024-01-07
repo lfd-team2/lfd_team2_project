@@ -5,11 +5,11 @@
 * Fatih Baskın - 150210710
 
 ## Requirements
-"""
+```
 numpy
 pandas
 matplotlib
 seaborn
 scikit-learn
 imblearn
-"""
+```
