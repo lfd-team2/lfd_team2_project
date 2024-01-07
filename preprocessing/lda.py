@@ -64,13 +64,13 @@ def lda(data, labels, num_components):
     SwSb = np.dot(Sw_inverse, Sb)
     eigenvalues, eigenvectors = np.linalg.eig(SwSb)
 
+    eigenvalues = np.real(eigenvalues)
+    eigenvectors = np.real(eigenvectors)
+
     # Sort the eigenvalues and eigenvectors in descending order
     sorted_indices = np.argsort(eigenvalues)[::-1]
     eigenvalues = eigenvalues[sorted_indices][:num_components]
     eigenvectors = eigenvectors[:, sorted_indices][:, :num_components]
-
-    eigenvalues = np.real(eigenvalues)
-    eigenvectors = np.real(eigenvectors)
 
     # Project the data onto eigenvectors
     projected_data = np.dot(data, eigenvectors)
